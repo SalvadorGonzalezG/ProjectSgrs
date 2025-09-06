@@ -4,7 +4,7 @@ CREATE TABLE AppUser (
                          name VARCHAR(255),
                          age INT,
                          mail VARCHAR(255),
-                         passwor VARCHAR(255)
+                         password VARCHAR(255)
 );
 
 CREATE TABLE Page (

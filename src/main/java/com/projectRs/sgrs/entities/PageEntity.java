@@ -25,17 +25,18 @@ public class PageEntity {
 
     @OneToOne
     @JoinColumn(name = "id_User", unique = true)
-    private String user;
+    private UserEntity user;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostEntity> posts = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_page")
+    private List<PostEntity> posts = new ArrayList<>(); //Lista de Post ya inicializada evitar nullPointerException
 
     // function to addPost
     public void addPost(PostEntity post){
         posts.add(post);
     }
 
-    //Remove f:
+    //f: Remove post:
     public void removePost(PostEntity post){
         posts.remove(post);
     }
