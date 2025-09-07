@@ -10,15 +10,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional; // Gestiona Commits, rollbacks propagaciones y isolaciones
 
 @Service
 @Transactional
-@AllArgsConstructor
+//@AllArgsConstructor
 @Slf4j
 public class PageServiceImp implements PageService{
 
     private final PageRepository pageRepository; // ID
+
+
+    public PageServiceImp(PageRepository pageRepository){
+        this.pageRepository = pageRepository;
+    }
 
     @Override
     public PageResponse create(PageRequest page){
@@ -41,12 +46,12 @@ public class PageServiceImp implements PageService{
     }
 
     @Override
-    public PostResponse createPost(PostRequest post){
+    public PageResponse createPost(PostRequest post){
         return null;
     }
 
     @Override
-    public PostResponse deletePost(Long idPost){
+    public PageResponse deletePost(Long idPost){
         return null;
     }
 }
