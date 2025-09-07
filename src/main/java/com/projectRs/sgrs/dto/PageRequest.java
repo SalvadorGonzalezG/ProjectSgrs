@@ -1,0 +1,17 @@
+package com.projectRs.sgrs.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+public class PageRequest {
+
+    private String litle;
+    private Long userId;
+
+}
