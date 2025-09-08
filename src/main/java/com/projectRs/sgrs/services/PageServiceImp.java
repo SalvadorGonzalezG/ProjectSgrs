@@ -4,13 +4,19 @@ import com.projectRs.sgrs.dto.PageRequest;
 import com.projectRs.sgrs.dto.PageResponse;
 import com.projectRs.sgrs.dto.PostRequest;
 import com.projectRs.sgrs.dto.PostResponse;
+import com.projectRs.sgrs.entities.PageEntity;
 import com.projectRs.sgrs.repositories.PageRepository;
+import com.projectRs.sgrs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional; // Gestiona Commits, rollbacks propagaciones y isolaciones
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -19,15 +25,32 @@ import org.springframework.transaction.annotation.Transactional; // Gestiona Com
 public class PageServiceImp implements PageService{
 
     private final PageRepository pageRepository; // ID
+    private final UserRepository userRepository; // Obtencion del usuario atravez del repoditorio
 
 
-    public PageServiceImp(PageRepository pageRepository){
+    public PageServiceImp(PageRepository pageRepository, UserRepository userRepository){
         this.pageRepository = pageRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public PageResponse create(PageRequest page){
-        return null;
+
+        final var entity = new PageEntity();// Create Object entity to persist in DataBase
+
+        BeanUtils.copyProperties(page, entity); // Copi properties from argument page in entity
+        // seteo del usuaio
+        final var user = this.userRepository.findById(page.getUserId()) // Search user coresponds to page
+                .orElseThrow();
+        entity.setDateCreation(LocalDateTime.now()); //seteo de la fecha (set date now)
+        entity.setUser(user); // Create relationship between users and page
+        entity.setPosts(new ArrayList<>()); // Set empty list
+
+        var pageCreated = this.pageRepository.save(entity); // Upseat id exists id update else insert
+        final var response = new PageResponse(); // Create DTO for response
+
+        BeanUtils.copyProperties(pageCreated, response); // Copy properties from entity(pageCreated) in response
+        return response;
     }
     @Override
     public PageResponse readByTitle(String title){
