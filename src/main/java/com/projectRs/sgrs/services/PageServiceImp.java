@@ -5,6 +5,7 @@ import com.projectRs.sgrs.dto.PageResponse;
 import com.projectRs.sgrs.dto.PostRequest;
 import com.projectRs.sgrs.dto.PostResponse;
 import com.projectRs.sgrs.entities.PageEntity;
+import com.projectRs.sgrs.entities.PostEntity;
 import com.projectRs.sgrs.repositories.PageRepository;
 import com.projectRs.sgrs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -20,18 +21,12 @@ import java.util.ArrayList;
 
 @Service
 @Transactional
-//@AllArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class PageServiceImp implements PageService{
 
     private final PageRepository pageRepository; // ID
     private final UserRepository userRepository; // Obtencion del usuario atravez del repoditorio
-
-
-    public PageServiceImp(PageRepository pageRepository, UserRepository userRepository){
-        this.pageRepository = pageRepository;
-        this.userRepository = userRepository;
-    }
 
     @Override
     public PageResponse create(PageRequest page){
@@ -44,7 +39,7 @@ public class PageServiceImp implements PageService{
                 .orElseThrow();
         entity.setDateCreation(LocalDateTime.now()); //seteo de la fecha (set date now)
         entity.setUser(user); // Create relationship between users and page
-        entity.setPosts(new ArrayList<>()); // Set empty list
+        //entity.setPosts(new ArrayList<>()); // Set empty list
 
         var pageCreated = this.pageRepository.save(entity); // Upseat id exists id update else insert
         final var response = new PageResponse(); // Create DTO for response
