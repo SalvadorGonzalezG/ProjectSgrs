@@ -25,8 +25,10 @@ public class SgrsApplication implements CommandLineRunner {
 				.title("Page GGS")
 				.build();
 
-		var response = this.pageService.create(req);
-		System.out.println(response);
+		//var response = this.pageService.create(req);
+		var res = this.pageService.readByTitle("User2 Page");
+		//System.out.println(response);
+		System.out.println(res);
 
 	}
 }

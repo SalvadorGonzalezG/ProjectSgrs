@@ -49,7 +49,14 @@ public class PageServiceImp implements PageService{
     }
     @Override
     public PageResponse readByTitle(String title){
-        return null;
+        final var entityResponse = this.pageRepository.findByTitle(title) // findByTitle and handle erros
+                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
+
+        final var response = new PageResponse(); // create response Obj
+
+        BeanUtils.copyProperties(entityResponse, response); // Copy properties from entity
+
+        return response;
     }
 
     @Override
