@@ -76,7 +76,14 @@ public class PageServiceImp implements PageService{
 
     @Override
     public PageResponse update(PageRequest page, String title){
-        return null;
+        final var entityFromDB = this.pageRepository.findByTitle(title)
+                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
+        entityFromDB.setTitle(page.getTitle()); // Update fields prom param pages
+
+        var pageCreated = this.pageRepository.save(entityFromDB);
+        final var response = new PageResponse();
+        BeanUtils.copyProperties(pageCreated, response);
+        return response;
     }
 
 
