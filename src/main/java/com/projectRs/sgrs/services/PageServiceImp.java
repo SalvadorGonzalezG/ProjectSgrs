@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional; // Gestiona Com
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -56,6 +57,20 @@ public class PageServiceImp implements PageService{
 
         BeanUtils.copyProperties(entityResponse, response); // Copy properties from entity
 
+        // Mapeo de Post
+        final List<PostResponse> postResponses = entityResponse.getPosts() // Get post responses from ´post entity
+                .stream() // Convert to stream
+                .map(postE -> // transform postEntity to postResponse
+                    PostResponse
+                           .builder()
+                           .img(postE.getImg())
+                           .content(postE.getContent())
+                           .dateCreation(postE.getDateCreation())
+                           .build()
+                )
+                .toList(); // convert To list
+
+        response.setPosts(postResponses); //set list of post
         return response;
     }
 
