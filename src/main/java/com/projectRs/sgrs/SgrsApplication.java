@@ -21,12 +21,12 @@ public class SgrsApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		var req = PageRequest
 				.builder()
-				.userId(4L)
-				.title("Page GGS")
+				//.userId(4L)
+				.title("Pagere")
 				.build();
 
 		//var response = this.pageService.create(req);
-		var res = this.pageService.readByTitle("User2 Page");
+		var res = this.pageService.update(req,"User2 Page");
 		//System.out.println(response);
 		System.out.println(res);
 
