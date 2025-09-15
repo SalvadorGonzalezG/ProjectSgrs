@@ -21,5 +21,5 @@ CREATE TABLE Post (
                       content VARCHAR(255),
                       img VARCHAR(255),
                       id_page INT,
-                      FOREIGN KEY (id_page) REFERENCES Page(id)
+                      FOREIGN KEY (id_page) REFERENCES Page(id) ON DELETE CASCADE
 );

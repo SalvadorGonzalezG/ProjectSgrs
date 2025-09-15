@@ -94,7 +94,7 @@ public class PageServiceImp implements PageService{
                 .orElseThrow(()-> new IllegalArgumentException("Title not found"));
         this.pageRepository.delete(entityFromDB);*/
 
-        if (this.pageRepository.existByTitle(title)){
+        if (this.pageRepository.existsByTitle(title)){
 
             log.info("Deliting page");
             this.pageRepository.deleteByTitle(title);

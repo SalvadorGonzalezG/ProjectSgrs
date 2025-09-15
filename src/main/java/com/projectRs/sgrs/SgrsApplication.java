@@ -19,7 +19,8 @@ public class SgrsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var req = PageRequest
+		this.pageService.delete("User2 Page");
+		/*var req = PageRequest
 				.builder()
 				//.userId(4L)
 				.title("Pagere")
@@ -28,7 +29,7 @@ public class SgrsApplication implements CommandLineRunner {
 		//var response = this.pageService.create(req);
 		var res = this.pageService.update(req,"User2 Page");
 		//System.out.println(response);
-		System.out.println(res);
+		System.out.println(res);*/
 
 	}
 }
