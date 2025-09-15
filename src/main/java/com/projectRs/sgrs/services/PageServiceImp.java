@@ -89,7 +89,19 @@ public class PageServiceImp implements PageService{
 
     @Override
     public void delete(String title){
+        // Delete by title
+        /*final var entityFromDB = this.pageRepository.findByTitle(title)
+                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
+        this.pageRepository.delete(entityFromDB);*/
 
+        if (this.pageRepository.existByTitle(title)){
+
+            log.info("Deliting page");
+            this.pageRepository.deleteByTitle(title);
+        }else {
+            log.error("Error to delete");
+            throw new IllegalArgumentException("Cant delete because id not exist");
+        }
     }
 
     @Override
