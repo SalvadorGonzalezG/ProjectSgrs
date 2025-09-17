@@ -3,33 +3,37 @@ package com.projectRs.sgrs.controllers;
 import com.projectRs.sgrs.dto.PageResponse;
 import com.projectRs.sgrs.services.PageService;
 import jakarta.persistence.OrderBy;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // use to expose RESTful
 @RequestMapping(path = "page") // to get this controller
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class PageController {
 
-    private final PageService pageService;
+    @Autowired
+    private PageService pageService;
 
-    @GetMapping
-    public ResponseEntity<PageResponse> getPage(){
-        return null;
+
+    @GetMapping(path = "{title}") // use to get data
+    public ResponseEntity<PageResponse> getPage(@PathVariable String title){
+        return ResponseEntity.ok(this.pageService.readByTitle(title));
     }
 
-    @PostMapping
+    @PostMapping //use to create data
     public ResponseEntity<?> postPage(){
         return null;
     }
 
-    @PutMapping
+    @PutMapping // use to update data
     public  ResponseEntity<?> updatePage(){
         return null;
     }
 
-    @DeleteMapping
+    @DeleteMapping // use to delete data
     public ResponseEntity<Void> deletePage(){
         return null;
     }
