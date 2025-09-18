@@ -42,9 +42,13 @@ public class PageController {
         return ResponseEntity.ok(this.pageService.update(request, title));
     }
 
-    @DeleteMapping // use to delete data
-    public ResponseEntity<Void> deletePage(){
-        return null;
+    @DeleteMapping(path = "{title}") // use to delete data
+    public ResponseEntity<Void> deletePage(
+            @PathVariable String title
+
+    ){
+        this.pageService.delete(title);
+        return ResponseEntity.noContent().build();
     }
 
     private String normalizeTitle(String title){
