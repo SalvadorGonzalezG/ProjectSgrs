@@ -34,9 +34,12 @@ public class PageController {
         return ResponseEntity.created(URI.create(uri)).build();
     }
 
-    @PutMapping // use to update data
-    public  ResponseEntity<?> updatePage(){
-        return null;
+    @PutMapping(path = "{title}") // use to update data
+    public  ResponseEntity<PageResponse> updatePage(
+            @PathVariable String title,
+            @RequestBody PageRequest request
+    ){
+        return ResponseEntity.ok(this.pageService.update(request, title));
     }
 
     @DeleteMapping // use to delete data
