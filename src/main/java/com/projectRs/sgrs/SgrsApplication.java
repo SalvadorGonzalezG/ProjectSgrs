@@ -19,7 +19,7 @@ public class SgrsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		this.pageService.delete("User2 Page");
+		//this.pageService.delete("User2 Page");
 		/*var req = PageRequest
 				.builder()
 				//.userId(4L)
