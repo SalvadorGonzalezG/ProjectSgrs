@@ -6,6 +6,7 @@ import com.projectRs.sgrs.dto.PostRequest;
 import com.projectRs.sgrs.dto.PostResponse;
 import com.projectRs.sgrs.entities.PageEntity;
 import com.projectRs.sgrs.entities.PostEntity;
+import com.projectRs.sgrs.exceptions.TitleNotValidException;
 import com.projectRs.sgrs.repositories.PageRepository;
 import com.projectRs.sgrs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class PageServiceImp implements PageService{
 
     @Override
     public PageResponse create(PageRequest page){
-
+        this.validTitle(page.getTitle());
         final var entity = new PageEntity();// Create Object entity to persist in DataBase
 
         BeanUtils.copyProperties(page, entity); // Copi properties from argument page in entity
@@ -76,6 +77,7 @@ public class PageServiceImp implements PageService{
 
     @Override
     public PageResponse update(PageRequest page, String title){
+        this.validTitle(page.getTitle());
         final var entityFromDB = this.pageRepository.findByTitle(title)
                 .orElseThrow(()-> new IllegalArgumentException("Title not found"));
         entityFromDB.setTitle(page.getTitle()); // Update fields prom param pages
@@ -112,5 +114,11 @@ public class PageServiceImp implements PageService{
     @Override
     public PageResponse deletePost(Long idPost){
         return null;
+    }
+
+    private void validTitle(String title){
+        if(title.contains("9090") || title.contains("9292")){
+            throw new TitleNotValidException("Title cant contain bad word");
+        }
     }
 }

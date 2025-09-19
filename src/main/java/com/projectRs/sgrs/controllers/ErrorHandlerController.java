@@ -1,5 +1,6 @@
 package com.projectRs.sgrs.controllers;
 
+import com.projectRs.sgrs.exceptions.TitleNotValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +23,18 @@ public class ErrorHandlerController {
     * */
     @ExceptionHandler(value = IllegalArgumentException.class)
     private ResponseEntity<HashMap<String, Object>> IlegalArgumentHandler(IllegalArgumentException ex){
+        //Se contruye la respuesta en forma de mapa (key-value)
+        final var response = new HashMap<String, Object>();
+        response.put("code", HttpStatus.BAD_REQUEST.value());
+        response.put("status", HttpStatus.BAD_REQUEST.getReasonPhrase());
+        response.put("message", ex.getMessage());
+        //Se devuelve la respuesta con el estado 400 y el Json en el body
+        return ResponseEntity.badRequest().body(response);
+
+    }
+
+    @ExceptionHandler(value = TitleNotValidException.class)
+    private ResponseEntity<HashMap<String, Object>> titleNotValidHandler(TitleNotValidException ex){
         //Se contruye la respuesta en forma de mapa (key-value)
         final var response = new HashMap<String, Object>();
         response.put("code", HttpStatus.BAD_REQUEST.value());
