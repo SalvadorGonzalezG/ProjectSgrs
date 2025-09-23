@@ -106,13 +106,41 @@ public class PageServiceImp implements PageService{
         }
     }
 
-    @Override
-    public PageResponse createPost(PostRequest post){
-        return null;
+    @Override // dto(request && response) -> entity to DTO
+    public PageResponse createPost(PostRequest post, String title){
+        // obtenemos por el id
+        final var pageToUpdate = this.pageRepository.findByTitle(title)
+                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
+
+        // postEntity -> Creamos un recipiente de entidad para poder copiar los properties y combertir mi request en una entidad
+        final var postEntity = new PostEntity(); // create entity to insert
+        BeanUtils.copyProperties(post, postEntity); // copi fields dtp entity
+        pageToUpdate.addPost(postEntity);
+
+        final var responseEntity =  this.pageRepository.save(pageToUpdate); //update
+
+        final var response = new PageResponse(); // Create response
+        BeanUtils.copyProperties(responseEntity, response); // copy fields from object update
+
+        final List<PostResponse> postResponses = responseEntity.getPosts() // map posts from db -> dto(response)
+                .stream() // Convert to stream
+                .map(postE -> // transform postEntity to postResponse
+                        PostResponse
+                                .builder()
+                                .img(postE.getImg())
+                                .content(postE.getContent())
+                                .dateCreation(postE.getDateCreation())
+                                .build()
+                )
+                .toList(); // convert To list
+        response.setPosts(postResponses);
+        return response;
     }
 
     @Override
-    public PageResponse deletePost(Long idPost){
+    public PageResponse deletePost(Long idPost, String title){
+        final var entityFromDB = this.pageRepository.findByTitle(title)
+                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
         return null;
     }
 

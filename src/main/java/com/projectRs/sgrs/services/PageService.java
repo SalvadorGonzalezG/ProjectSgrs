@@ -17,8 +17,9 @@ public interface PageService {
     void delete(String title);
 
     //crear un post
-    PageResponse createPost(PostRequest post);
+    // ->post hijo de paginas (una pagina contine muchos post) y un post simepre dependera de una pagina tando en Db como en nuesto sistema
+    PageResponse createPost(PostRequest post, String title);
 
-    PageResponse deletePost(Long idPost);
+    PageResponse deletePost(Long idPost, String title);
 
 }

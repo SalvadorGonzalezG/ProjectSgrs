@@ -2,6 +2,7 @@ package com.projectRs.sgrs.controllers;
 
 import com.projectRs.sgrs.dto.PageRequest;
 import com.projectRs.sgrs.dto.PageResponse;
+import com.projectRs.sgrs.dto.PostRequest;
 import com.projectRs.sgrs.services.PageService;
 import jakarta.persistence.OrderBy;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 
 @RestController // use to expose RESTful
 @RequestMapping(path = "page") // to get this controller
@@ -53,9 +55,17 @@ public class PageController {
 
     private String normalizeTitle(String title){
         if (title.contains(" ")){
-            return title.replaceAll("\\s+", "-");
+            return title.replaceAll(" ", "-");
         }else {
             return title;
         }
+    }
+
+    @PostMapping(path = "post/{title}")
+    public ResponseEntity <PageResponse> postPage(
+            @RequestBody PostRequest request,
+            @PathVariable String title
+            ){
+        return ResponseEntity.ok(this.pageService.createPost(request, title));
     }
 }
