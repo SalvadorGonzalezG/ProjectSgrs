@@ -115,6 +115,8 @@ public class PageServiceImp implements PageService{
         // postEntity -> Creamos un recipiente de entidad para poder copiar los properties y combertir mi request en una entidad
         final var postEntity = new PostEntity(); // create entity to insert
         BeanUtils.copyProperties(post, postEntity); // copi fields dtp entity
+        // Fecha de creación para que tambien sea actualizada
+        postEntity.setDateCreation(LocalDateTime.now());
         pageToUpdate.addPost(postEntity);
 
         final var responseEntity =  this.pageRepository.save(pageToUpdate); //update

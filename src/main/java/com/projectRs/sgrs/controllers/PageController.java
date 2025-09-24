@@ -61,7 +61,7 @@ public class PageController {
         }
     }
 
-    @PostMapping(path = "post/{title}")
+    @PostMapping(path = "{title}/post")
     public ResponseEntity <PageResponse> postPage(
             @RequestBody PostRequest request,
             @PathVariable String title
