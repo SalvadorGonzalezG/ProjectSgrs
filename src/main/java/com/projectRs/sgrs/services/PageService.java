@@ -20,6 +20,6 @@ public interface PageService {
     // ->post hijo de paginas (una pagina contine muchos post) y un post simepre dependera de una pagina tando en Db como en nuesto sistema
     PageResponse createPost(PostRequest post, String title);
 
-    PageResponse deletePost(Long idPost, String title);
+    Void deletePost(Long idPost, String title);
 
 }

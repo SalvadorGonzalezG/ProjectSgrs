@@ -13,12 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional; // Gestiona Commits, rollbacks propagaciones y isolaciones
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -140,10 +137,17 @@ public class PageServiceImp implements PageService{
     }
 
     @Override
-    public PageResponse deletePost(Long idPost, String title){
-        final var entityFromDB = this.pageRepository.findByTitle(title)
+     public Void deletePost(Long idPost, String title){
+        final var pageToUpdate = this.pageRepository.findByTitle(title)
                 .orElseThrow(()-> new IllegalArgumentException("Title not found"));
-        return null;
+        //Obtener el post
+        final var postTodelete = pageToUpdate.getPosts()
+                .stream()
+                .filter(post -> post.getId().equals(idPost))
+                .findFirst()
+                .orElseThrow(() ->new IllegalArgumentException("post not found"));
+        pageToUpdate.removePost(postTodelete);
+        final var responseEntity = this.pageRepository.save(pageToUpdate);
     }
 
     private void validTitle(String title){
