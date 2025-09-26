@@ -147,7 +147,7 @@ public class PageServiceImp implements PageService{
                 .findFirst()
                 .orElseThrow(() ->new IllegalArgumentException("post not found"));
         pageToUpdate.removePost(postTodelete);
-        final var responseEntity = this.pageRepository.save(pageToUpdate);
+        this.pageRepository.save(pageToUpdate);
     }
 
     private void validTitle(String title){
