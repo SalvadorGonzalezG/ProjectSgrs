@@ -137,15 +137,15 @@ public class PageServiceImp implements PageService{
     }
 
     @Override
-     public Void deletePost(Long idPost, String title){
+     public void deletePost(Long idPost, String title) {
         final var pageToUpdate = this.pageRepository.findByTitle(title)
-                .orElseThrow(()-> new IllegalArgumentException("Title not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Title not found"));
         //Obtener el post
         final var postTodelete = pageToUpdate.getPosts()
                 .stream()
                 .filter(post -> post.getId().equals(idPost))
                 .findFirst()
-                .orElseThrow(() ->new IllegalArgumentException("post not found"));
+                .orElseThrow(() -> new IllegalArgumentException("post not found"));
         pageToUpdate.removePost(postTodelete);
         this.pageRepository.save(pageToUpdate);
     }
